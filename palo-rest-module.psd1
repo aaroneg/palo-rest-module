@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-# RootModule = ''
+RootModule = 'palo-rest-module.psm1'
 
 # Version number of this module.
 ModuleVersion = '0.0.1'
@@ -24,7 +24,7 @@ GUID = '5ccd031d-eff1-47d7-a8f5-f5a3cdb2143d'
 Author = 'Aaron'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+CompanyName = 'N/A'
 
 # Copyright statement for this module
 Copyright = '(c) Aaron. All rights reserved.'

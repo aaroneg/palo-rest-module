@@ -15,11 +15,11 @@ function New-PaConnection {
         [Parameter(Mandatory=$false)][string]$ApiVersion='v9.1'
     )
     $paConnectionProperties = @{
-        Address    = $DeviceAddress
+        Address    = "$DeviceAddress"
         ApiKey     = $ApiKey
         VSys       = $VSys
         ApiVersion = $ApiVersion
-        ApiBaseURL = "$DeviceAddress/restapi/$ApiVersion/"
+        ApiBaseURL = "https://$DeviceAddress/restapi/$ApiVersion/"
     }
     $paConnection = New-Object psobject -Property $paConnectionProperties
     $paConnection

@@ -26,11 +26,11 @@ function Get-PAEthernetInterface {
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
-        [Parameter(Mandatory=$True,Position=1)][string]$InterfaceName
+        [Parameter(Mandatory=$True,Position=1)][string]$Name
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Network/EthernetInterfaces?"
     $Arguments= @(
-        "name=$([System.Web.HttpUtility]::UrlEncode($InterfaceName))"
+        "name=$([System.Web.HttpUtility]::UrlEncode($Name))"
     )
     
     $restParams=@{

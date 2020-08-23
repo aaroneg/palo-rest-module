@@ -18,7 +18,6 @@ function Get-PAAddresses {
             ContentType = 'application/json'    
         }
     }
-    $restParams
     $result=Invoke-RestMethod @restParams
     ($result.result).entry
 }
@@ -26,13 +25,13 @@ function Get-PAAddress {
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
-        [Alias("Name")][Parameter(Mandatory=$True,Position=1)][string]$AddressName
+        [Alias("AddressName")][Parameter(Mandatory=$True,Position=1)][string]$Name
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Addresses?"
     $Arguments= @(
         "location=vsys"
         "vsys=$($paConnection.VSys)"
-        "name=$([System.Web.HttpUtility]::UrlEncode($AddressName))"
+        "name=$([System.Web.HttpUtility]::UrlEncode($Name))"
     )
     
     $restParams=@{
@@ -52,7 +51,7 @@ function New-PAAddress {
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
-        [Parameter(Mandatory=$True,Position=1)][string]$AddressName,
+        [Parameter(Mandatory=$True,Position=1)][string]$Name,
         [Parameter(Mandatory=$True,Position=2)][string]$ipNetmask,
         [Parameter(Mandatory=$false,Position=3)][string]$description=''
     )
@@ -60,12 +59,12 @@ function New-PAAddress {
     $Arguments= @(
         "location=vsys"
         "vsys=$($paConnection.VSys)"
-        "name=$AddressName"
+        "name=$Name"
     )
     
     [psobject]$newObject=@{
         entry = @{
-            "@name" = $AddressName
+            "@name" = $Name
             "@location" = "vsys"
             #"vsys" = $paConnection.VSys
             "ip-netmask" = $ipNetmask
@@ -94,7 +93,7 @@ function Set-PAAddress {
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
-        [Parameter(Mandatory=$True,Position=1)][string]$AddressName,
+        [Parameter(Mandatory=$True,Position=1)][string]$Name,
         [Parameter(Mandatory=$True,Position=2)][string]$ipNetmask,
         [Parameter(Mandatory=$false,Position=3)][string]$description=''
     )
@@ -102,12 +101,12 @@ function Set-PAAddress {
     $Arguments= @(
         "location=vsys"
         "vsys=$($paConnection.VSys)"
-        "name=$AddressName"
+        "name=$Name"
     )
     
     [psobject]$newObject=@{
         entry = @{
-            "@name" = $AddressName
+            "@name" = $Name
             "@location" = "vsys"
             #"vsys" = $paConnection.VSys
             "ip-netmask" = $ipNetmask

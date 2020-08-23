@@ -68,7 +68,6 @@ function New-PAEthernetL3SubInterface {
             'adjust-tcp-mss'= @{'enable'='no'}
             'ip'= @{
                 'entry' = @{
-                    #name = $AddressObject.'@name'
                     '@name' = $AddressObject.'@name'
                 }
             }
@@ -76,7 +75,6 @@ function New-PAEthernetL3SubInterface {
             'tag' = $vlanID
         }
     }
-    #$newObject
     $restParams=@{
         Method = 'post'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
@@ -87,9 +85,8 @@ function New-PAEthernetL3SubInterface {
         }
         body = $newObject|ConvertTo-Json -Depth 50
     }
-    $newObject|ConvertTo-Json -Depth 50
     $result=Invoke-RestMethod @restParams
-    #$result.result
+    $result.result
     #$restParams
 }
 

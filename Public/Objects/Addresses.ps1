@@ -26,7 +26,7 @@ function Get-PAAddress {
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
-        [Parameter(Mandatory=$True,Position=1)][string]$AddressName
+        [Alias("Name")][Parameter(Mandatory=$True,Position=1)][string]$AddressName
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Addresses?"
     $Arguments= @(

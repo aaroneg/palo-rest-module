@@ -87,7 +87,6 @@ function New-PAEthernetL3SubInterface {
     }
     $result=Invoke-RestMethod @restParams
     $result.result
-    #$restParams
 }
 
 Export-ModuleMember -Function "*-*"

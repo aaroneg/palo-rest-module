@@ -51,25 +51,32 @@ function New-PAEthernetL3SubInterface {
     Param(
         [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
         [Parameter(Mandatory=$True,Position=1)][string]$ParentConnectionName,
-        [Parameter(Mandatory=$True,Position=2)][string]$vlanID
+        [Parameter(Mandatory=$True,Position=2)][string]$vlanID,
+        [Parameter(Mandatory=$True,Position=3)][string]$AddressName
 
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Network/EthernetInterfaces?"
     $Arguments= @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-        "name=$AddressName"
+        "name=$ParentConnectionName.$vlanID"
     )
-    
+    try {$AddressObject=Get-PAAddress -paConnection $paConnection -Name $AddressName} catch {throw "Address object does not exist or cannot be retrieved"}
     [psobject]$newObject=@{
         entry = @{
-            "@name" = $AddressName
-            "@location" = "vsys"
-            #"vsys" = $paConnection.VSys
-            "network" = @{'layer3'=''}
+            "@name" = "$ParentConnectionName.$vlanID"
+            "ipv6" = @{"neighbor-discovery"=''}
+            "ndp-proxy" = @{'enabled'='no'}
+            'adjust-tcp-mss'= @{'enable'='no'}
+            'ip'= @{
+                'entry' = @(
+                    @{'name'= $AddressObject.'@name'}
+                    #Name = @{'@name' = $AddressObject.'@name'}
+                )
+            }
+            'interface-management-profile' = 'pingable'
+            'tag' = $vlanID
         }
     }
-
+    $newObject
     $restParams=@{
         Method = 'post'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
@@ -82,7 +89,7 @@ function New-PAEthernetL3SubInterface {
     }
 
     $result=Invoke-RestMethod @restParams
-    $result.result
+    #$result.result
     #$restParams
 }
 

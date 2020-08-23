@@ -67,16 +67,16 @@ function New-PAEthernetL3SubInterface {
             "ndp-proxy" = @{'enabled'='no'}
             'adjust-tcp-mss'= @{'enable'='no'}
             'ip'= @{
-                'entry' = @(
-                    @{'name'= $AddressObject.'@name'}
-                    #Name = @{'@name' = $AddressObject.'@name'}
-                )
+                'entry' = @{
+                    #name = $AddressObject.'@name'
+                    '@name' = $AddressObject.'@name'
+                }
             }
             'interface-management-profile' = 'pingable'
             'tag' = $vlanID
         }
     }
-    $newObject
+    #$newObject
     $restParams=@{
         Method = 'post'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
@@ -85,9 +85,9 @@ function New-PAEthernetL3SubInterface {
             "X-PAN-KEY" = $paConnection.ApiKey
             ContentType = 'application/json'
         }
-        body = $newObject|ConvertTo-Json
+        body = $newObject|ConvertTo-Json -Depth 50
     }
-
+    $newObject|ConvertTo-Json -Depth 50
     $result=Invoke-RestMethod @restParams
     #$result.result
     #$restParams

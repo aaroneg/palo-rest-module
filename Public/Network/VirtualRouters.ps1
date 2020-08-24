@@ -62,8 +62,6 @@ function Set-PAVirtualRouterInterfaces {
     
     $CurrentRouter=Get-PAVirtualRouter -paConnection $paConnection -Name $Name
     
-    ##$CurrentRouter|Convertto-json -Depth 50
-    
     # The virtual router already has some interfaces
     if ($CurrentRouter.interface) { 
         Write-Verbose "Interfaces property already exists, Proceeding with adding the interfaces."
@@ -87,19 +85,12 @@ function Set-PAVirtualRouterInterfaces {
             $CurrentRouter.interface.member += $Interface.'@name'
         }
     }
-    
-    ## $CurrentRouter.interface.member
-
-
 
     [psobject]$newObject=@{
         entry = @(
             $CurrentRouter
         )
     }
-
-    #$newObject|ConvertTo-Json -Depth 50
-    
 
     $restParams=@{
         Method = 'put'

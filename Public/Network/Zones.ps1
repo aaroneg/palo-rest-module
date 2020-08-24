@@ -79,9 +79,10 @@ function New-PAZone {
             "X-PAN-KEY" = $paConnection.ApiKey
             ContentType = 'application/json'
         }
-        body = $newObject|ConvertTo-Json
+        body = $newObject|ConvertTo-Json -Depth 50
     }
-
+    #$restParams.Uri
+    #$restParams.body
     $result=Invoke-RestMethod @restParams
     $result.result
 }

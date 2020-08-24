@@ -52,22 +52,24 @@ function New-PAZone {
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
-        [Parameter(Mandatory=$True,Position=1)][string]$ZoneName,
-        [Parameter(Mandatory=$True,Position=2)][ValidateSet('Tap','Virtual Wire','Layer2','Layer3','Tunnel')][string]$Type
+        [Parameter(Mandatory=$True,Position=1)][object]$Name,
+        [Parameter(Mandatory=$True,Position=2)][ValidateSet('Tap','Virtual Wire','Layer2','Layer3','Tunnel')][string]$Type,
+        [Parameter(Mandatory=$false,Position=3)][string]$Interface
+
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Network/Zones?"
     $Arguments= @(
         "location=vsys"
         "vsys=$($paConnection.VSys)"
-        "name=$AddressName"
+        "name=$Name"
     )
     
     [psobject]$newObject=@{
         entry = @{
-            "@name" = $AddressName
+            "@name" = $Name
             "@location" = "vsys"
-            #"vsys" = $paConnection.VSys
-            "network" = @{'layer3'=''}
+            "@vsys" = $paConnection.VSys
+            "network" = @{'layer3'=@(@{member = $Interface})}
         }
     }
 

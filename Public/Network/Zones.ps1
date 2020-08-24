@@ -26,13 +26,13 @@ function Get-PAZone {
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
-        [Parameter(Mandatory=$True,Position=1)][string]$AddressName
+        [Parameter(Mandatory=$True,Position=1)][string]$Name
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Network/Zones?"
     $Arguments= @(
         "location=vsys"
         "vsys=$($paConnection.VSys)"
-        "name=$([System.Web.HttpUtility]::UrlEncode($AddressName))"
+        "name=$([System.Web.HttpUtility]::UrlEncode($Name))"
     )
     
     $restParams=@{

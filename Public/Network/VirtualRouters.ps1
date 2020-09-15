@@ -63,7 +63,7 @@ function Set-PAVirtualRouterInterfaces {
     $CurrentRouter=Get-PAVirtualRouter -paConnection $paConnection -Name $Name
     
     # The virtual router already has some interfaces
-    if ($CurrentRouter.interface) { 
+    if ($CurrentRouter.interface.member) { 
         Write-Verbose "Interfaces property already exists, Proceeding with adding the interfaces."
     }
     # The virtual router does not have interfaces

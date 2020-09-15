@@ -12,7 +12,7 @@ function New-PaConnection {
         [Parameter(Mandatory=$True,Position=0)][string]$DeviceAddress,
         [Parameter(Mandatory=$True,Position=1)][string]$ApiKey,
         [Parameter(Mandatory=$false)][string]$VSys='vsys1',
-        [Parameter(Mandatory=$false)][string]$ApiVersion='v9.1'
+        [Parameter(Mandatory=$false)][string]$ApiVersion='v10.0'
     )
     $paConnectionProperties = @{
         Address    = "$DeviceAddress"

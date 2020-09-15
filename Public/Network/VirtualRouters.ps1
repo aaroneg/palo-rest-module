@@ -75,9 +75,15 @@ function Set-PAVirtualRouterInterfaces {
             member = @()
         }
     }
+    #$Interfaces
     foreach ($Interface in $Interfaces) {
+        # Detect incorrect interface types and reject them.
+        if (!($Interface.tag) -and !($Interface.layer3)) { 
+            Write-Error "$($Interface.'@name') is not a layer3 interface, skipping"
+            continue
+        }
         if ($Interface.'@name' -in $CurrentRouter.interface.member) {
-            Write-Verbose "$($Interface.'@name') already in list, skipping"
+            Write-Warning "$($Interface.'@name') already in list, skipping"
             continue
         }
         else {

@@ -15,7 +15,7 @@ function Get-PAAddresses {
         SkipCertificateCheck = $True
         Headers = @{
             "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
+            ContentType = 'application/json'
         }
     }
     $result=Invoke-RestMethod @restParams
@@ -129,8 +129,6 @@ function Set-PAAddress {
     $result.result
     #$restParams
 }
-
-
 
 
 

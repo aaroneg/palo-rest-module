@@ -64,11 +64,11 @@ function Set-PAVirtualRouterInterfaces {
     
     # The virtual router already has some interfaces
     if ($CurrentRouter.interface.member) { 
-        Write-Verbose "Interfaces property already exists, Proceeding with adding the interfaces."
+        Write-Verbose "$($MyInvocation.MyCommand.Name): Interfaces property already exists, Proceeding with adding the interfaces."
     }
     # The virtual router does not have interfaces
     else {
-        Write-Verbose "Adding interfaces property"
+        Write-Verbose "$($MyInvocation.MyCommand.Name): Adding interfaces property"
         Add-Member -NotePropertyName interface -NotePropertyValue @{member=@()} -InputObject $CurrentRouter
         #$CurrentRouter|ConvertTo-Json -Depth 50
         $CurrentRouter.interface = @{
@@ -87,7 +87,7 @@ function Set-PAVirtualRouterInterfaces {
             continue
         }
         else {
-            Write-Verbose "Adding interface :  $($Interface.'@name')"
+            Write-Verbose "$($MyInvocation.MyCommand.Name): Adding interface :  $($Interface.'@name')"
             $CurrentRouter.interface.member += $Interface.'@name'
         }
     }

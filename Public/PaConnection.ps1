@@ -22,8 +22,9 @@ function New-PaConnection {
         ApiBaseURL = "https://$DeviceAddress/restapi/$ApiVersion/"
     }
     $paConnection = New-Object psobject -Property $paConnectionProperties
+    Write-Verbose "$($MyInvocation.MyCommand.Name): $($paConnection.Address) is now the default. "
+    $Script:paConnection=$paConnection
     $paConnection
-
 }
 
 function Test-PaConnection {

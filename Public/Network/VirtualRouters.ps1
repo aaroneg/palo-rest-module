@@ -1,7 +1,7 @@
 function Get-PAVirtualRouters {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory=$True,Position=0)][object]$paConnection
+        [Parameter(Mandatory=$False)][object]$paConnection=$Script:paConnection
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Network/VirtualRouters?"
     $Arguments= @(
@@ -26,8 +26,8 @@ function Get-PAVirtualRouters {
 function Get-PAVirtualRouter {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
-        [Parameter(Mandatory=$True,Position=1)][string]$Name
+        [Parameter(Mandatory=$False)][object]$paConnection=$Script:paConnection,
+        [Parameter(Mandatory=$True,Position=0)][string]$Name
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Network/VirtualRouters?"
     $Arguments= @(
@@ -51,7 +51,7 @@ function Get-PAVirtualRouter {
 function Set-PAVirtualRouterInterfaces {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
+        [Parameter(Mandatory=$False)][object]$paConnection=$Script:paConnection,
         [Parameter(Mandatory=$True,Position=1)][string]$Name,
         [Parameter(Mandatory=$True,Position=2)][array]$Interfaces
     )

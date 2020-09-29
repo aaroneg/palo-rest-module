@@ -1,7 +1,7 @@
 function Get-PAEthernetInterfaces {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory=$True,Position=0)][object]$paConnection
+        [Parameter(Mandatory=$False)][object]$paConnection=$Script:paConnection
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Network/EthernetInterfaces?"
     $Arguments= @(
@@ -25,8 +25,8 @@ function Get-PAEthernetInterfaces {
 function Get-PAEthernetInterface {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
-        [Parameter(Mandatory=$True,Position=1)][string]$Name
+        [Parameter(Mandatory=$False)][object]$paConnection=$Script:paConnection,
+        [Parameter(Mandatory=$True,Position=0)][string]$Name
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Network/EthernetInterfaces?"
     $Arguments= @(
@@ -49,10 +49,10 @@ function Get-PAEthernetInterface {
 function New-PAEthernetL3SubInterface {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory=$True,Position=0)][object]$paConnection,
-        [Parameter(Mandatory=$True,Position=1)][string]$ParentConnectionName,
-        [Parameter(Mandatory=$True,Position=2)][string]$vlanID,
-        [Parameter(Mandatory=$True,Position=3)][string]$AddressName
+        [Parameter(Mandatory=$False)][object]$paConnection=$Script:paConnection,
+        [Parameter(Mandatory=$True,Position=0)][string]$ParentConnectionName,
+        [Parameter(Mandatory=$True,Position=1)][string]$vlanID,
+        [Parameter(Mandatory=$True,Position=2)][string]$AddressName
 
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Network/EthernetInterfaces?"

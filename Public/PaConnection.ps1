@@ -80,4 +80,9 @@ function Test-PaConnection {
 
 }
 
+function Get-PaCurrentConnection {
+    "Here is the current default connection:"
+    $Script:paConnection
+}
+
 Export-ModuleMember -Function "*-*"

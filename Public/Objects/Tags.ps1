@@ -3,13 +3,13 @@ function Get-PATags {
     Param(
         [Parameter(Mandatory=$False)][object]$paConnection=$Script:paConnection
     )
-    Write-Verbose "$($MyInvocation.MyCommand.Name): This cmdlet will not show tags from the 'Predefined' location, only tags that exist in a vsys."
+    Write-Verbose "[$($MyInvocation.MyCommand.Name)] This cmdlet will not show tags from the 'Predefined' location, only tags that exist in a vsys."
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Tags?"
     $Arguments= @(
         "location=vsys"
         "vsys=$($paConnection.VSys)"
     )
-    
+
     $restParams=@{
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
@@ -81,7 +81,8 @@ function New-PATag {
         }
         body = $newObject|ConvertTo-Json
     }
-    Invoke-PaRequest $restParams
+    "[$($MyInvocation.MyCommand.Name)] Submitting '$Name' to API endpoint."
+    $Result = Invoke-PaRequest $restParams
 }
 
 Export-ModuleMember -Function "*-*"

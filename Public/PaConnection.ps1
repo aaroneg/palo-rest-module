@@ -25,7 +25,7 @@ function New-PaConnection {
         [Parameter(Mandatory=$True,Position=1)][string]$ApiKey,
         [Parameter(Mandatory=$false)][string]$VSys='vsys1',
         [Parameter(Mandatory=$false)][string]$ApiVersion='v10.0',
-        [Parameter(Mandatory=$false)][bool]$Passthru=$false
+        [Parameter(Mandatory=$false)][switch]$Passthru
 
     )
     $paConnectionProperties = @{
@@ -36,9 +36,9 @@ function New-PaConnection {
         ApiBaseURL = "https://$DeviceAddress/restapi/$ApiVersion/"
     }
     $paConnection = New-Object psobject -Property $paConnectionProperties
-    Write-Verbose "$($MyInvocation.MyCommand.Name): $($paConnection.Address) is now the default. "
+    Write-Verbose "[$($MyInvocation.MyCommand.Name)] Host '$($paConnection.Address)' is now the default connection."
     $Script:paConnection=$paConnection
-    if ($Passthru){
+    if ($true -eq $Passthru){
         $paConnection
     }
     

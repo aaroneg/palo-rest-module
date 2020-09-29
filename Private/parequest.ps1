@@ -3,9 +3,9 @@ function Invoke-PaRequest {
     param (
         [Parameter(Mandatory=$True,Position=0)][Object]$restParams
     )
-    Write-Verbose $($MyInvocation.MyCommand.Name)
-    $result = try {
-        Invoke-RestMethod @restParams
+    #Write-Verbose $($MyInvocation.MyCommand.Name)
+    try {
+        $result = Invoke-RestMethod @restParams 
     }
     catch {
         if ($_.ErrorDetails.Message) {

@@ -12,7 +12,9 @@ function New-PaConnection {
         [Parameter(Mandatory=$True,Position=0)][string]$DeviceAddress,
         [Parameter(Mandatory=$True,Position=1)][string]$ApiKey,
         [Parameter(Mandatory=$false)][string]$VSys='vsys1',
-        [Parameter(Mandatory=$false)][string]$ApiVersion='v10.0'
+        [Parameter(Mandatory=$false)][string]$ApiVersion='v10.0',
+        [Parameter(Mandatory=$false)][bool]$Passthru=$false
+
     )
     $paConnectionProperties = @{
         Address    = "$DeviceAddress"
@@ -24,7 +26,10 @@ function New-PaConnection {
     $paConnection = New-Object psobject -Property $paConnectionProperties
     Write-Verbose "$($MyInvocation.MyCommand.Name): $($paConnection.Address) is now the default. "
     $Script:paConnection=$paConnection
-    $paConnection
+    if ($Passthru){
+        $paConnection
+    }
+    
 }
 
 function Test-PaConnection {

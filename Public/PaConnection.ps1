@@ -1,10 +1,22 @@
 <#
 .SYNOPSIS
-    Creates a connection to the palo device.
-
+    Creates a connection object for a palo device.
+.PARAMETER DeviceAddress
+    The address of your API. This is a DNS or IP address. All of the rest of the URL is generated for you.
+.PARAMETER ApiKey
+    Your API key.
+.PARAMETER VSys
+    Set this if it's equal to anything other than 'vsys1', which is the most common setting.
+.PARAMETER ApiVersion
+    The address of your API. You should leave this at its default value unless you're using a newer version of the firmware. You *can* use this with version 9.x but some cmdlets will not function.
+.PARAMETER Passthru
+    Set this to true to get a copy of the paConnection Object.
 .EXAMPLE
     PS> New-PaConnection -DeviceAddress 192.168.1.2 -ApiKey abcd
-
+.INPUTS
+    None. This cmdlet does not support pipelines.
+.OUTPUTS
+    System.Object
 #>
 function New-PaConnection {
     [CmdletBinding()]
@@ -32,10 +44,23 @@ function New-PaConnection {
     
 }
 
+<#
+.SYNOPSIS
+    Tests a PaConnection object by getting a list of virtual systems.
+.PARAMETER paConnection
+    A connection object from New-PaConnection
+.EXAMPLE
+    PS> Test-PaConnection $paConnection
+.INPUTS
+    System.Object
+.OUTPUTS
+    System.String
+
+#>
 function Test-PaConnection {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$True,Position=0)][object]$paConnection
+        [Parameter(ValueFromPipeline=$True,Mandatory=$True,Position=0)][object]$paConnection
     )
 
     $restParams=@{

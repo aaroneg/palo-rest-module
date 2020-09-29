@@ -9,7 +9,7 @@ function Get-PATags {
         "location=vsys"
         "vsys=$($paConnection.VSys)"
     )
-    $paConnection|fl
+    
     $restParams=@{
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"

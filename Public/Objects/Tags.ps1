@@ -57,9 +57,9 @@ function New-PATag {
     $Argumentstring = (New-PaArgumentString $Arguments)
     [psobject]$newObject = @{
         entry = @{
-            "@name"     = $Name
-            "@location" = "vsys"
-            "comments"  = $Comments
+            '@name'     = $Name
+            '@location' = 'vsys'
+            comments    = $Comments
         }
     }
 

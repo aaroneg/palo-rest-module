@@ -52,7 +52,6 @@ function Get-PADHCPServer {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-
     }
     $Result = Invoke-PaRequest $restParams
     ($result.result).entry

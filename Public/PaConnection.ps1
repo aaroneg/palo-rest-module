@@ -38,7 +38,7 @@ function New-PaConnection {
     $paConnection = New-Object psobject -Property $paConnectionProperties
     Write-Verbose "[$($MyInvocation.MyCommand.Name)] Host '$($paConnection.Address)' is now the default connection."
     $Script:paConnection=$paConnection
-    if ($true -eq $Passthru){
+    if ($Passthru){
         $paConnection
     }
     

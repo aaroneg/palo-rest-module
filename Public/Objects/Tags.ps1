@@ -15,7 +15,6 @@ function Get-PATags {
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
     }
-    write-warning $restParams.Uri
     $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }

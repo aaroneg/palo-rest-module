@@ -5,14 +5,14 @@ function Get-PATags {
     )
     Write-Verbose "[$($MyInvocation.MyCommand.Name)] This cmdlet will not show tags from the 'Predefined' location, only tags that exist in a vsys."
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Tags?"
-    $Arguments= @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-    )
-
+    $Arguments= @{
+        location = 'vsys'
+        vsys     = $($paConnection.VSys)
+    }
+    $Argumentstring=(New-PaArgumentString $Arguments)
     $restParams=@{
-        Method = 'Get'
-        Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
+        Method               = 'Get'
+        Uri                  = "$($ObjectAPIURI)$($ArgumentString)"
         SkipCertificateCheck = $True
     }
     $Result = Invoke-PaRequest $restParams
@@ -25,15 +25,16 @@ function Get-PATag {
         [Alias("AddressName")][Parameter(Mandatory=$True,Position=0)][string]$Name
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Tags?"
-    $Arguments= @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-        "name=$([System.Web.HttpUtility]::UrlEncode($Name))"
-    )
+    $Arguments=@{
+        location = 'vsys'
+        vsys     = $($paConnection.VSys)
+        name     = $Name
+    }
+    $Argumentstring=(New-PaArgumentString $Arguments)
     
     $restParams=@{
-        Method = 'Get'
-        Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
+        Method               = 'Get'
+        Uri                  = "$($ObjectAPIURI)$($ArgumentString)"
         SkipCertificateCheck = $True
     }
     $Result = Invoke-PaRequest $restParams
@@ -48,25 +49,25 @@ function New-PATag {
         [Parameter(Mandatory=$false,Position=1)][string]$Comments=''
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Tags?"
-    $Arguments= @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-        "name=$Name"
-    )
-    
+    $Arguments= @{
+        location = 'vsys'
+        vsys     = $($paConnection.VSys)
+        name     = $Name
+    }
+    $Argumentstring=(New-PaArgumentString $Arguments)
     [psobject]$newObject=@{
         entry = @{
-            "@name" = $Name
+            "@name"     = $Name
             "@location" = "vsys"
-            "comments" = $Comments
+            "comments"  = $Comments
         }
     }
 
     $restParams=@{
-        Method = 'post'
-        Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
+        Method               = 'post'
+        Uri                  = "$($ObjectAPIURI)$($ArgumentString)"
         SkipCertificateCheck = $True
-        body = $newObject|ConvertTo-Json
+        body                 = $newObject|ConvertTo-Json
     }
     "[$($MyInvocation.MyCommand.Name)] Submitting '$Name' to API endpoint."
     $Result = Invoke-PaRequest $restParams

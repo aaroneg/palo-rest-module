@@ -3,9 +3,12 @@ function Invoke-PaRequest {
     param (
         [Parameter(Mandatory=$True,Position=0)][Object]$restParams
     )
-    #Write-Verbose $($MyInvocation.MyCommand.Name)
+    $Headers = @{
+        "X-PAN-KEY" = $paConnection.ApiKey
+        ContentType = 'application/json'
+    }
     try {
-        $result = Invoke-RestMethod @restParams 
+        $result = Invoke-RestMethod @restParams -Headers $headers
     }
     catch {
         if ($_.ErrorDetails.Message) {

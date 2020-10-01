@@ -13,13 +13,8 @@ function Get-PAEthernetInterfaces {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
     }
-    $restParams
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 function Get-PAEthernetInterface {
@@ -37,12 +32,8 @@ function Get-PAEthernetInterface {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
     }
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 
@@ -79,13 +70,9 @@ function New-PAEthernetL3SubInterface {
         Method = 'post'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'
-        }
         body = $newObject|ConvertTo-Json -Depth 50
     }
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     $result.result
 }
 

@@ -14,10 +14,6 @@ function Get-PATags {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'
-        }
     }
     write-warning $restParams.Uri
     $Result = Invoke-PaRequest $restParams
@@ -40,10 +36,6 @@ function Get-PATag {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
     }
     $Result = Invoke-PaRequest $restParams
     ($result.result).entry
@@ -75,14 +67,11 @@ function New-PATag {
         Method = 'post'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'
-        }
         body = $newObject|ConvertTo-Json
     }
     "[$($MyInvocation.MyCommand.Name)] Submitting '$Name' to API endpoint."
     $Result = Invoke-PaRequest $restParams
+    $Result.result
 }
 
 Export-ModuleMember -Function "*-*"

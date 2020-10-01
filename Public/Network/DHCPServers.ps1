@@ -13,13 +13,8 @@ function Get-PADHCPServers {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
     }
-    $restParams
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 
@@ -38,13 +33,8 @@ function Get-PADHCPRelays {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
     }
-    $restParams
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 function Get-PADHCPServer {
@@ -62,12 +52,9 @@ function Get-PADHCPServer {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
+
     }
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 
@@ -86,12 +73,8 @@ function Get-PADHCPRelay {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
     }
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 
@@ -129,13 +112,9 @@ function New-PADHCPServer {
         Method = 'post'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'
-        }
         body = $newObject|ConvertTo-Json -Depth 50
     }
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     $result.result
 }
 #>

@@ -13,10 +13,6 @@ function Get-PAAddresses {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'
-        }
     }
     $Result = Invoke-PaRequest $restParams
     ($result.result).entry
@@ -38,10 +34,6 @@ function Get-PAAddress {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
     }
     $Result = Invoke-PaRequest $restParams
     ($result.result).entry
@@ -96,10 +88,6 @@ function New-PAAddress {
         Method = 'post'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'
-        }
         body = $newObject|ConvertTo-Json -Depth 50
     }
     
@@ -139,10 +127,6 @@ function Set-PAAddress {
         Method = 'put'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'
-        }
         body = $newObject|ConvertTo-Json
     }
 

@@ -13,13 +13,9 @@ function Get-PAZones {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
     }
     $restParams
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 function Get-PAZone {
@@ -39,12 +35,8 @@ function Get-PAZone {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
     }
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 
@@ -77,15 +69,11 @@ function New-PAZone {
         Method = 'post'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'
-        }
         body = $newObject|ConvertTo-Json -Depth 50
     }
     #$restParams.Uri
     #$restParams.body
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     $result.result
 }
 

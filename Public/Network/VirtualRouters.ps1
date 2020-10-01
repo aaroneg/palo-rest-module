@@ -13,13 +13,10 @@ function Get-PAVirtualRouters {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
+
     }
 
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 
@@ -38,12 +35,8 @@ function Get-PAVirtualRouter {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'    
-        }
     }
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 
@@ -102,15 +95,11 @@ function Set-PAVirtualRouterInterfaces {
         Method = 'put'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-        Headers = @{
-            "X-PAN-KEY" = $paConnection.ApiKey
-            ContentType = 'application/json'
-        }
         body = $newObject|ConvertTo-Json -Depth 50
     }
     #$restParams.Uri
     #$restParams.body
-    $result=Invoke-RestMethod @restParams
+    $Result = Invoke-PaRequest $restParams
     ($result.result).entry
 }
 

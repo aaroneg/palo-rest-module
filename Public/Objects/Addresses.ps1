@@ -4,14 +4,14 @@ function Get-PAAddresses {
         [Parameter(Mandatory=$False)][object]$paConnection=$Script:paConnection
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Addresses?"
-    $Arguments= @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-    )
-    
+    $Arguments= @{
+        location = 'vsys'
+        vsys     = $($paConnection.VSys)
+    }
+    $Argumentstring = (New-PaArgumentString $Arguments)
     $restParams=@{
-        Method = 'Get'
-        Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
+        Method               = 'Get'
+        Uri                  = "$($ObjectAPIURI)$($ArgumentString)"
         SkipCertificateCheck = $True
     }
     $Result = Invoke-PaRequest $restParams
@@ -24,15 +24,15 @@ function Get-PAAddress {
         [Alias("AddressName")][Parameter(Mandatory=$True,Position=0)][string]$Name
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Addresses?"
-    $Arguments= @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-        "name=$([System.Web.HttpUtility]::UrlEncode($Name))"
-    )
-    
+    $Arguments= @{
+        location = 'vsys'
+        vsys     = $($paConnection.VSys)
+        name     = $Name
+    }
+    $Argumentstring = (New-PaArgumentString $Arguments)
     $restParams=@{
-        Method = 'Get'
-        Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
+        Method               = 'Get'
+        Uri                  = "$($ObjectAPIURI)$($ArgumentString)"
         SkipCertificateCheck = $True
     }
     $Result = Invoke-PaRequest $restParams
@@ -48,24 +48,24 @@ function New-PAAddress {
         [Parameter(Mandatory=$false,Position=2)][string]$description='',
         [Parameter(Mandatory=$false,Position=3)][array]$Tags
     )
-    #Write-Verbose "[$($MyInvocation.MyCommand.Name)] Checking for existing entry: '$Name'"
+    Write-Verbose "[$($MyInvocation.MyCommand.Name)] Checking for existing entry: '$Name'"
     if ($foo=Get-PAAddress -Name $Name -ErrorAction SilentlyContinue ) {throw "This object already exists"}
     else { 
-        #Write-Verbose "[$($MyInvocation.MyCommand.Name)] Address does not already exist, proceeding." 
+        Write-Verbose "[$($MyInvocation.MyCommand.Name)] Address does not already exist, proceeding." 
     }
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Addresses?"
-    $Arguments= @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-        "name=$Name"
-    )
-    
+    $Arguments= @{
+        location = 'vsys'
+        vsys     = $($paConnection.VSys)
+        name     = $Name
+    }
+    $Argumentstring = (New-PaArgumentString $Arguments)
     [psobject]$newObject=@{
         entry = @{
-            "@name" = $Name
-            "@location" = "vsys"
-            "ip-netmask" = $ipNetmask
-            "description" = $description
+            '@name'        = $Name
+            '@location'    = 'vsys'
+            'ip-netmask'   = $ipNetmask
+            description    = $description
         }
     }
 
@@ -85,16 +85,16 @@ function New-PAAddress {
 
     
     $restParams=@{
-        Method = 'post'
-        Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
+        Method               = 'post'
+        Uri                  = "$($ObjectAPIURI)$($ArgumentString)"
         SkipCertificateCheck = $True
-        body = $newObject|ConvertTo-Json -Depth 50
+        body                 = $newObject|ConvertTo-Json -Depth 50
     }
     
     "[$($MyInvocation.MyCommand.Name)] Submitting '$Name' to API endpoint."
     $Result = Invoke-PaRequest $restParams
-    #$result.result
-    #$restParams
+    $Result.result
+
 }
 
 
@@ -107,32 +107,31 @@ function Set-PAAddress {
         [Parameter(Mandatory=$false,Position=2)][string]$description=''
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Addresses?"
-    $Arguments= @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-        "name=$Name"
-    )
-    
+    $Arguments= @{
+        location = 'vsys'
+        vsys     = $($paConnection.VSys)
+        name     = $Name
+    }
+    $Argumentstring=(New-PaArgumentString $Arguments)
     [psobject]$newObject=@{
         entry = @{
-            "@name" = $Name
-            "@location" = "vsys"
-            #"vsys" = $paConnection.VSys
-            "ip-netmask" = $ipNetmask
-            "description" = $description
+            '@name'       = $Name
+            '@location'   = 'vsys'
+            'ip-netmask'  = $ipNetmask
+            description   = $description
         }
     }
 
     $restParams=@{
-        Method = 'put'
-        Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
+        Method               = 'put'
+        Uri                  = "$($ObjectAPIURI)$($ArgumentString)"
         SkipCertificateCheck = $True
-        body = $newObject|ConvertTo-Json
+        body                 = $newObject|ConvertTo-Json
     }
 
     $Result = Invoke-PaRequest $restParams
-    $result.result
-    #$restParams
+    $Result.result
+
 }
 
 

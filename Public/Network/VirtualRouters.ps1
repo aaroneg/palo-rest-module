@@ -13,7 +13,6 @@ function Get-PAVirtualRouters {
         Method = 'Get'
         Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
         SkipCertificateCheck = $True
-
     }
 
     $Result = Invoke-PaRequest $restParams

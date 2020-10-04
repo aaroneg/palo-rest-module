@@ -24,11 +24,11 @@ function Get-PAAddressGroup {
         [Alias("AddressName")][Parameter(Mandatory = $True, Position = 0)][string]$Name
     )
     $ObjectAPIURI = "$($paConnection.ApiBaseUrl)Objects/AddressGroups?"
-    $Arguments = @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-        "name=$([System.Web.HttpUtility]::UrlEncode($Name))"
-    )
+    $Arguments = @{
+        location = vsys
+        vsys     = $($paConnection.VSys)
+        name     = $Name
+    }
     $Argumentstring = (New-PaArgumentString $Arguments)
     $restParams = @{
         Method               = 'Get'
@@ -48,19 +48,18 @@ function New-PAAddressGroup {
         [Parameter(Mandatory = $false, Position = 2)][string]$description = ''
     )
     $ObjectAPIURI = "$($paConnection.ApiBaseUrl)Objects/AddressGroups?"
-    $Arguments = @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-        "name=$Name"
-    )
+    $Arguments = @{
+        location = 'vsys'
+        vsys     = $($paConnection.VSys)
+        name     = $Name
+    }
     $Argumentstring = (New-PaArgumentString $Arguments)
     [psobject]$newObject = @{
         entry = @{
-            "@name"       = $Name
-            "@location"   = "vsys"
-            #"vsys" = $paConnection.VSys
-            "ip-netmask"  = $ipNetmask
-            "description" = $description
+            '@name'      = $Name
+            '@location'  = "vsys"
+            'ip-netmask' = $ipNetmask
+            description  = $description
         }
     }
 
@@ -85,11 +84,11 @@ function Set-PAAddressGroup {
         [Parameter(Mandatory = $false, Position = 2)][string]$description = ''
     )
     $ObjectAPIURI = "$($paConnection.ApiBaseUrl)Objects/AddressGroups?"
-    $Arguments = @(
-        "location=vsys"
-        "vsys=$($paConnection.VSys)"
-        "name=$Name"
-    )
+    $Arguments = @{
+        location = 'vsys'
+        vsys     = $($paConnection.VSys)
+        name     = $Name
+    }
     $Argumentstring = (New-PaArgumentString $Arguments)
     [psobject]$newObject = @{
         entry = @{
@@ -99,7 +98,6 @@ function Set-PAAddressGroup {
             description  = $description
         }
     }
-
     $restParams = @{
         Method               = 'put'
         Uri                  = "$($ObjectAPIURI)$($ArgumentString)"
@@ -109,9 +107,6 @@ function Set-PAAddressGroup {
 
     $Result = Invoke-PaRequest $restParams
     $result.result
-    #$restParams
 }
-
-
 
 Export-ModuleMember -Function "*-*"

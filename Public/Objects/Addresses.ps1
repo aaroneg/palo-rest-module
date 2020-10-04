@@ -91,7 +91,7 @@ function New-PAAddress {
         body                 = $newObject|ConvertTo-Json -Depth 50
     }
     
-    "[$($MyInvocation.MyCommand.Name)] Submitting '$Name' to API endpoint."
+    Write-Verbose "[$($MyInvocation.MyCommand.Name)] Submitting '$Name' to API endpoint."
     $Result = Invoke-PaRequest $restParams
     $Result.result
 
@@ -104,7 +104,8 @@ function Set-PAAddress {
         [Parameter(Mandatory=$False)][object]$paConnection=$Script:paConnection,
         [Parameter(Mandatory=$True,Position=0)][string]$Name,
         [Parameter(Mandatory=$True,Position=1)][string]$ipNetmask,
-        [Parameter(Mandatory=$false,Position=2)][string]$description=''
+        [Parameter(Mandatory=$false,Position=2)][string]$description='',
+        [Parameter(Mandatory=$false,Position=3)][array]$Tags
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Objects/Addresses?"
     $Arguments= @{
@@ -121,7 +122,19 @@ function Set-PAAddress {
             description   = $description
         }
     }
-
+    if ($Tags) {
+        $newObject.entry.tag=@{member=@()}
+        foreach ($Tag in $Tags) {
+            try {$foo=Get-PATag -Name $Tag -ErrorAction Stop}
+            catch {
+                Write-Warning "[$($MyInvocation.MyCommand.Name)] Tag '$Tag' was not found. Adding."
+                try {New-PATag -Name $Tag}
+                catch {throw "[$($MyInvocation.MyCommand.Name)] Unable to process $Name"}
+            }
+            Write-Verbose "[$($MyInvocation.MyCommand.Name)] Adding tag '$tag' => $Name"
+            $newObject.entry.tag.member+= $Tag
+        }
+    }
     $restParams=@{
         Method               = 'put'
         Uri                  = "$($ObjectAPIURI)$($ArgumentString)"

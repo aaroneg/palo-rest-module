@@ -48,17 +48,15 @@ function Set-PAVirtualRouterInterfaces {
         [Parameter(Mandatory=$True,Position=2)][array]$Interfaces
     )
     $ObjectAPIURI="$($paConnection.ApiBaseUrl)Network/VirtualRouters?"
-    $Arguments= @(
-        "name=$([System.Web.HttpUtility]::UrlEncode($Name))"
-    )
-    
+    $Arguments= @{
+        name = $Name
+    }
+    $Argumentstring = (New-PaArgumentString $Arguments)
     $CurrentRouter=Get-PAVirtualRouter -paConnection $paConnection -Name $Name
     
-    # The virtual router already has some interfaces
     if ($CurrentRouter.interface.member) { 
         Write-Verbose "$($MyInvocation.MyCommand.Name): Interfaces property already exists, Proceeding with adding the interfaces."
     }
-    # The virtual router does not have interfaces
     else {
         Write-Verbose "$($MyInvocation.MyCommand.Name): Adding interfaces property"
         Add-Member -NotePropertyName interface -NotePropertyValue @{member=@()} -InputObject $CurrentRouter
@@ -91,10 +89,10 @@ function Set-PAVirtualRouterInterfaces {
     }
 
     $restParams=@{
-        Method = 'put'
-        Uri = "$($ObjectAPIURI)$($Arguments -join('&'))"
+        Method               = 'put'
+        Uri                  = "$($ObjectAPIURI)$($ArgumentString)"
         SkipCertificateCheck = $True
-        body = $newObject|ConvertTo-Json -Depth 50
+        body                 = $newObject|ConvertTo-Json -Depth 50
     }
     #$restParams.Uri
     #$restParams.body

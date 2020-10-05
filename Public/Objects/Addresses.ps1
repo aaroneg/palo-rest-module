@@ -90,7 +90,7 @@ function New-PAAddress {
         SkipCertificateCheck = $True
         body                 = $newObject|ConvertTo-Json -Depth 50
     }
-    
+    Write-Debug "[$($MyInvocation.MyCommand.Name)] $($newObject|convertto-json -Depth 50)"
     Write-Verbose "[$($MyInvocation.MyCommand.Name)] Submitting '$Name' to API endpoint."
     $Result = Invoke-PaRequest $restParams
     $Result.result
@@ -141,7 +141,7 @@ function Set-PAAddress {
         SkipCertificateCheck = $True
         body                 = $newObject|ConvertTo-Json
     }
-
+    Write-Debug "[$($MyInvocation.MyCommand.Name)] $($newObject|convertto-json -Depth 50)"
     $Result = Invoke-PaRequest $restParams
     $Result.result
 

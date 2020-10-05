@@ -7,7 +7,7 @@ function Invoke-PaRequest {
         "X-PAN-KEY" = $paConnection.ApiKey
         ContentType = 'application/json'
     }
-    Write-Verbose "[$($MyInvocation.MyCommand.Name)] Making API call."
+    #Write-Verbose "[$($MyInvocation.MyCommand.Name)] Making API call."
     try {
         $result = Invoke-RestMethod @restParams -Headers $headers
     }

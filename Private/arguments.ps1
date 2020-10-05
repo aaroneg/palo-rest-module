@@ -8,6 +8,6 @@ function New-PaArgumentString {
 #        $OutputString.Add($Argument.Name, $Argument.Value)
 #    }
     $QueryArguments.GetEnumerator() | ForEach-Object {$OutputString.Add($_.Key, $_.Value)}
-    Write-Verbose "[$($MyInvocation.MyCommand.Name)] $($OutputString.ToString())"
+#    Write-Verbose "[$($MyInvocation.MyCommand.Name)] $($OutputString.ToString())"
     $OutputString.ToString()
 }
